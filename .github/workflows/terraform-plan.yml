@@ -28,8 +28,13 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
+        env:
+          AWS_ACCESS_KEY_ID: "test-access-key-id"
+          AWS_SECRET_ACCESS_KEY: "test-secret-access-key"
+          AWS_SESSION_TOKEN: "test-session-token"
+          AWS_DEFAULT_REGION: "ap-south-1"
         run: |
-          terraform plan -input=false -out=tfplan
+          terraform plan -refresh=false -input=false -out=tfplan
           terraform show -no-color tfplan > tfplan.txt
 
       - name: Upload Terraform Plan Artifact
